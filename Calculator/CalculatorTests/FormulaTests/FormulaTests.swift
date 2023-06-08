@@ -53,6 +53,23 @@ final class FormulaTests: XCTestCase {
         XCTAssertEqual(result, -0.5)
     }
     
+    func test_3빼기음수3곱하기음수2나누기음수6을연산큐와숫자큐에넣고_result를호출하면_2를반환한다() {
+        // given
+        sut.operands.enqueue(3.0)
+        sut.operators.enqueue(.subtract)
+        sut.operands.enqueue(-3.0)
+        sut.operators.enqueue(.multiply)
+        sut.operands.enqueue(-2.0)
+        sut.operators.enqueue(.divide)
+        sut.operands.enqueue(-6.0)
+        
+        // when
+        let result = try! sut.result()
+
+        // then
+        XCTAssertEqual(result, 2)
+    }
+    
     func test_3을숫자큐에넣고_result를호출하면_invalidFormula오류를반환한다() {
         // given
         sut.operands.enqueue(3.0)
