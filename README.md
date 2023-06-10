@@ -33,9 +33,41 @@
 | 23/06/09 (금) | - 음수기호와 뺄셈연산자를 구분하도록 Operator 수정 |
 
 ## 🔍 시각화 구조
-**UML 클래스 다이어그램**
+### UML 클래스 다이어그램
 
 <img width="817" alt="스크린샷 2023-06-10 오후 3 17 47" src="https://github.com/MaryJo-github/ios-calculator-app/assets/42026766/614bf97d-8d79-4fb1-aee7-12fa5ab86ccc">
+
+### 폴더 구조
+
+```
+.
+├── Base.lproj
+├── Model
+│   ├── CalculatorItemQueue
+│   │   ├── CalculatorItemQueue.swift
+│   │   ├── LinkedList.swift
+│   │   └── Node.swift
+│   ├── ExpressionParser.swift
+│   ├── Formula.swift
+│   ├── Operator.swift
+│   └── Protocol
+│       └── CalculateItem.swift
+├── View
+│   ├── Assets.xcassets
+│   └── Base.lproj
+│       ├── LaunchScreen.storyboard
+│       └── Main.storyboard
+├── Controller
+│   ├── AppDelegate.swift
+│   ├── SceneDelegate.swift
+│   └── ViewController.swift
+├── Error
+│   ├── ExpressionParserErrors.swift
+│   └── FormulaErrors.swift
+├── Extension
+│   └── Double+.swift
+└── Info.plist
+```
 
 ## 🔨 트러블 슈팅 
 
