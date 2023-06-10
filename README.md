@@ -21,29 +21,21 @@
 ## ⏰ 타임라인
 ###### 날짜와 중요한 커밋 위주로 작성되었습니다.
 
-- **23/05/30 (화)**
-    - TDD기반 CalculatorItemQueue 기능 구현
-- **23/05/31 (수)** 
-    - Linked List를 이용한 Queue 구조로 변경
-- **23/06/01 (목)**
-    - Node, Linked List, Queue에 Generic 활용
-- **23/06/02 (금)**
-    - CalculatorItemQueue의 Type Parameter에 제약 추가
-- **23/06/03 (토)**
-    - Operator 타입 구현
-- **23/06/05 (월)**
-    - ExpressionParser 타입 구현
-- **23/06/06 (화)**
-    - Formula result 메서드 구현
-    - 오류 처리 추가
-    - 테스트 케이스 추가 및 ExpressionParser 리팩토링
-- **23/06/09 (금)**
-    - 음수기호와 뺄셈연산자를 구분하도록 Operator 수정
+| 날짜 | 진행 사항 |
+| -------- | -------- |
+| 23/05/30 (화) | - TDD기반 CalculatorItemQueue 기능 구현 |
+| 23/05/31 (수) | - Linked List를 이용한 Queue 구조로 변경 |
+| 23/06/01 (목) | - Node, Linked List, Queue에 Generic 활용 |
+| 23/06/02 (금) | - CalculatorItemQueue의 Type Parameter에 제약 추가 |
+| 23/06/03 (토) | - Operator 타입 구현 |
+| 23/06/05 (월) | - ExpressionParser 타입 구현 |
+| 23/06/06 (화) | - Formula result 메서드 구현 </br> - 오류 처리 추가 </br> - 테스트 케이스 추가 및 ExpressionParser 리팩토링 |
+| 23/06/09 (금) | - 음수기호와 뺄셈연산자를 구분하도록 Operator 수정 |
 
 ## 🔍 시각화 구조
 **UML 클래스 다이어그램**
 
-<img width="612" alt="스크린샷 2023-06-02 오후 2 47 43" src="https://github.com/MaryJo-github/ios-calculator-app/assets/42026766/b0b41931-f1a2-473e-b2aa-7e332f495bfb">
+<img width="817" alt="스크린샷 2023-06-10 오후 3 17 47" src="https://github.com/MaryJo-github/ios-calculator-app/assets/42026766/614bf97d-8d79-4fb1-aee7-12fa5ab86ccc">
 
 ## 🔨 트러블 슈팅 
 
@@ -245,5 +237,5 @@ print(negativeSign.unicodeScalars.first!.value)
 - 요구사항을 꼼꼼하게 확인하지 못해서 수정작업을 거쳤던 점
     
 ## 📑 참고자료
-[Generic Types](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#Generic-Types) 
+[Generic Types](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#Generic-Types)  <br>
 [Type Constraints](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#Type-Constraints)
