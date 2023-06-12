@@ -14,7 +14,7 @@ final class ExpressionParserTests: XCTestCase {
         let input = "1+2"
         
         // when
-        var result = try! ExpressionParser.parse(from: input)
+        var result = ExpressionParser.parse(from: input)
 
         // then
         XCTAssertEqual(result.operands.dequeue(), 1.0)
@@ -27,7 +27,7 @@ final class ExpressionParserTests: XCTestCase {
         let input = "1+2−3"
         
         // when
-        var result = try! ExpressionParser.parse(from: input)
+        var result = ExpressionParser.parse(from: input)
 
         // then
         XCTAssertEqual(result.operands.dequeue(), 1.0)
@@ -42,7 +42,7 @@ final class ExpressionParserTests: XCTestCase {
         let input = "1+5−-3"
         
         // when
-        var result = try! ExpressionParser.parse(from: input)
+        var result = ExpressionParser.parse(from: input)
 
         // then
         XCTAssertEqual(result.operands.dequeue(), 1.0)
@@ -57,7 +57,7 @@ final class ExpressionParserTests: XCTestCase {
         let input = "3×-2÷-3"
         
         // when
-        var result = try! ExpressionParser.parse(from: input)
+        var result = ExpressionParser.parse(from: input)
 
         // then
         XCTAssertEqual(result.operands.dequeue(), 3.0)
@@ -72,32 +72,10 @@ final class ExpressionParserTests: XCTestCase {
         let input = "3"
         
         // when
-        var result = try! ExpressionParser.parse(from: input)
+        var result = ExpressionParser.parse(from: input)
 
         // then
         XCTAssertEqual(result.operands.dequeue(), 3.0)
         XCTAssertEqual(result.operators.dequeue(), nil)
-    }
-    
-    func test_2더하기a를인수로넣고_parse호출시_invalidOperands오류를반환한다() {
-        // given
-        let input = "2+a"
-        
-        // when, then
-        XCTAssertThrowsError(try ExpressionParser.parse(from: input)) { error in
-            XCTAssertEqual(error as? ExpressionParserErrors,
-                           ExpressionParserErrors.invalidOperands)
-        }
-    }
-    
-    func test_2는3을인수로넣고_parse호출시_invalidOperators오류를반환한다() {
-        // given
-        let input = "2=3"
-        
-        // when, then
-        XCTAssertThrowsError(try ExpressionParser.parse(from: input)) { error in
-            XCTAssertEqual(error as? ExpressionParserErrors,
-                           ExpressionParserErrors.invalidOperands)
-        }
     }
 }

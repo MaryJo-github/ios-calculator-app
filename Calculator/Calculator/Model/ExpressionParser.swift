@@ -8,16 +8,14 @@
 import Foundation
 
 enum ExpressionParser {
-    static func parse(from input: String) throws -> Formula {
+    static func parse(from input: String) -> Formula {
         let operands = componentsByOperators(from: input)
         let operators = input.compactMap { Operator(rawValue: $0) }
         var operandsQueue = CalculatorItemQueue<Double>()
         var operatorsQueue = CalculatorItemQueue<Operator>()
                
-        try operands.forEach {
-            guard let operand = Double($0) else {
-                throw ExpressionParserErrors.invalidOperands
-            }
+        operands.forEach {
+            guard let operand = Double($0) else { return }
             operandsQueue.enqueue(operand)
         }
         operators.forEach { operatorsQueue.enqueue($0) }
