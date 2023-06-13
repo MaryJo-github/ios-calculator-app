@@ -11,6 +11,9 @@
 // 오류처리 (notdivisiblebyzero)
 // 45/ = invalidOperands인 이유
 //
+// 소수점 처리 -> 결과가 정수이면 정수로 보여주기
+// 오류처리 -> nan 처리
+//
 
 import UIKit
 
@@ -32,9 +35,9 @@ final class ViewController: UIViewController {
         expression = ""
     }
     
-    private func initializeOperands(withLabel: Bool = true) {
+    private func initializeOperands(labelUpdate: Bool = true) {
         operandsValue = ""
-        if withLabel {
+        if labelUpdate {
             operandsLabel.text = "0"
         }
     }
@@ -46,7 +49,7 @@ final class ViewController: UIViewController {
     
     private func updateOperands(to value: String) {
         operandsValue = value
-        operandsLabel.text = value.isEmpty ? "0" : value
+        operandsLabel.text = value
     }
     
     private func updateOperator(to `operator`: String) {
@@ -78,29 +81,32 @@ final class ViewController: UIViewController {
         // 이전에 누른 번호와 합쳐서 ValueLabel 업데이트
         // .5 -> 0.5
         
-        if operandsValue.isEmpty {
+        switch operandsValue {
+        case "" where number == ".":
+            updateOperands(to: "0" + number)
+        case "":
             updateOperands(to: number)
-        } else {
+        default:
             updateOperands(to: operandsValue + number)
         }
     }
     
     @IBAction private func hitEqualsButton(_ sender: UIButton) {
-        guard let `operator` = sender.currentTitle else { return }
-
-        expression.append(operatorValue + operandsValue)
-        print(expression)
-        
         do {
-            var formula = try ExpressionParser.parse(from: expression)
-            operandsLabel.text = "\(try formula.result())"
+            expression.append(operatorValue + operandsValue)
+            print(expression)
+            var formula = ExpressionParser.parse(from: expression)
+            let result = try formula.result()
+            
+            operandsLabel.text = result.numberFormat()!
         } catch {
+            operandsLabel.text = "NaN"
             print(error)
         }
         
         initializeExpression()
         initializeOperator()
-        initializeOperands(withLabel: false)
+        initializeOperands(labelUpdate: false)
     }
     
     @IBAction private func hitAllClearButton(_ sender: UIButton) {
@@ -110,14 +116,14 @@ final class ViewController: UIViewController {
     }
     
     @IBAction private func hitClearEntryButton(_ sender: UIButton) {
-        
+        initializeOperands()
     }
     
     @IBAction private func hitChangeSignButton(_ sender: UIButton) {
         guard operandsValue.isEmpty == false else { return }
         
         if operandsValue.hasPrefix("-") {
-            updateOperands(to: operandsValue.trimmingCharacters(in: CharacterSet(charactersIn: "-")))
+            updateOperands(to: String(operandsValue.dropFirst()))
         } else {
             updateOperands(to: "-" + operandsValue)
         }
