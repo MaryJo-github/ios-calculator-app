@@ -13,11 +13,12 @@ enum ExpressionParser {
         let operators = input.compactMap { Operator(rawValue: $0) }
         var operandsQueue = CalculatorItemQueue<Double>()
         var operatorsQueue = CalculatorItemQueue<Operator>()
-               
-        operands.forEach {
-            guard let operand = Double($0) else { return }
-            operandsQueue.enqueue(operand)
-        }
+          
+        operands.compactMap { Double($0) }.forEach { operandsQueue.enqueue($0) }
+//        operands.forEach {
+//            guard let operand = Double($0) else { return }
+//            operandsQueue.enqueue(operand)
+//        }
         operators.forEach { operatorsQueue.enqueue($0) }
         
         return Formula(operands: operandsQueue, operators: operatorsQueue)
