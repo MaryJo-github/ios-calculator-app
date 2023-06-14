@@ -1,15 +1,15 @@
 //
-//  Calculator - ViewController.swift
+//  Calculator - MainViewController.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-final class ViewController: UIViewController {
-    private var expression = ""
-    private var operandsValue = ""
-    private var operatorValue = ""
+final class MainViewController: UIViewController {
+    private var expression = String()
+    private var operandsValue = String()
+    private var operatorValue = String()
     @IBOutlet weak var operandsLabel: UILabel!
     @IBOutlet weak var operatorLabel: UILabel!
     @IBOutlet weak var parentStackView: UIStackView!
@@ -23,19 +23,19 @@ final class ViewController: UIViewController {
     
     // MARK: - Function
     private func initializeExpression() {
-        expression = ""
+        expression = Strings.empty
     }
     
     private func initializeOperands(labelUpdate: Bool = true) {
-        operandsValue = ""
+        operandsValue = Strings.empty
         if labelUpdate {
-            operandsLabel.text = "0"
+            operandsLabel.text = Strings.zero
         }
     }
     
     private func initializeOperator() {
-        operatorValue = ""
-        operatorLabel.text = ""
+        operatorValue = Strings.empty
+        operatorLabel.text = Strings.empty
     }
     
     private func updateOperands(to value: String) {
@@ -46,6 +46,24 @@ final class ViewController: UIViewController {
     private func updateOperator(to `operator`: String) {
         operatorValue = `operator`
         operatorLabel.text = `operator`
+    }
+    
+    // MARK: - Function (View)
+    private func insertStackView(with strings: String...) {
+        let labels = strings.map { createUILabel(text: $0) }
+        let subStackView = createSubStackView(with: labels)
+        
+        parentStackView.addArrangedSubview(subStackView)
+        expressionScrollView.layoutIfNeeded()
+        expressionScrollView.scrollToBottom()
+    }
+    
+    private func initializeStackView() {
+        guard parentStackView.subviews.count > 0 else { return }
+        
+        parentStackView.subviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
     }
     
     // MARK: - IBAction
@@ -62,22 +80,22 @@ final class ViewController: UIViewController {
     
     @IBAction private func hitNumberButton(_ sender: UIButton) {
         guard let number = sender.currentTitle else { return }
-        if operandsValue.contains(".") && number == "." { return }
+        if operandsValue.contains(Strings.point) && number == Strings.point { return }
 
         switch (operandsValue, number) {
-        case ("0", "0"):
+        case (Strings.zero, Strings.zero):
             return
-        case ("0", "00"):
+        case (Strings.zero, Strings.doubleZero):
             return
-        case ("", "0") where expression.isEmpty:
+        case (Strings.empty, Strings.zero) where expression.isEmpty:
             return
-        case ("", "00"):
+        case (Strings.empty, Strings.doubleZero):
             return
-        case ("", "."):
-            updateOperands(to: "0" + number)
-        case ("0", _):
+        case (Strings.empty, Strings.point):
+            updateOperands(to: Strings.zero + number)
+        case (Strings.zero, _):
             updateOperands(to: number)
-        case ("", _):
+        case (Strings.empty, _):
             updateOperands(to: number)
         default:
             updateOperands(to: operandsValue + number)
@@ -94,7 +112,7 @@ final class ViewController: UIViewController {
             
             operandsLabel.text = result.numberFormat()!
         } catch {
-            operandsLabel.text = "NaN"
+            operandsLabel.text = Strings.nan
             print(error)
         }
         initializeOperands(labelUpdate: false)
@@ -117,15 +135,15 @@ final class ViewController: UIViewController {
     @IBAction private func hitChangeSignButton(_ sender: UIButton) {
         guard operandsValue.isEmpty == false else { return }
         
-        if operandsValue.hasPrefix("-") {
+        if operandsValue.hasPrefix(Strings.minus) {
             updateOperands(to: String(operandsValue.dropFirst()))
         } else {
-            updateOperands(to: "-" + operandsValue)
+            updateOperands(to: Strings.minus + operandsValue)
         }
     }
 }
 
-extension ViewController {
+extension MainViewController {
     private func createUILabel(text: String) -> UILabel {
         let label = UILabel()
         
@@ -146,21 +164,15 @@ extension ViewController {
         
         return stackView
     }
-    
-    private func insertStackView(with strings: String...) {
-        let labels = strings.map { createUILabel(text: $0) }
-        let subStackView = createSubStackView(with: labels)
-        
-        parentStackView.addArrangedSubview(subStackView)
-        expressionScrollView.layoutIfNeeded()
-        expressionScrollView.scrollToBottom()
-    }
-    
-    private func initializeStackView() {
-        guard parentStackView.subviews.count > 0 else { return }
-        
-        parentStackView.subviews.forEach { subview in
-            subview.removeFromSuperview()
-        }
+}
+
+extension MainViewController {
+    private enum Strings {
+        static let empty = ""
+        static let zero = "0"
+        static let point = "."
+        static let doubleZero = "00"
+        static let minus = "-"
+        static let nan = "NaN"
     }
 }
