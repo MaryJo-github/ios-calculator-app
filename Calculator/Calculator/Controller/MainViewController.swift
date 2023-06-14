@@ -64,17 +64,20 @@ final class ViewController: UIViewController {
         guard let number = sender.currentTitle else { return }
         if operandsValue.contains(".") && number == "." { return }
 
-        switch operandsValue {
-//        case "" where number == "0" || number == "00":
-        case "0" where number == "0" || number == "00":
+        switch (operandsValue, number) {
+        case ("0", "0"):
             return
-        case "" where number == "00":
+        case ("0", "00"):
             return
-//        case "" where number == "0", where expression.isEmpty:
-//            return
-        case "" where number == ".":
+        case ("", "0") where expression.isEmpty:
+            return
+        case ("", "00"):
+            return
+        case ("", "."):
             updateOperands(to: "0" + number)
-        case "":
+        case ("0", _):
+            updateOperands(to: number)
+        case ("", _):
             updateOperands(to: number)
         default:
             updateOperands(to: operandsValue + number)
